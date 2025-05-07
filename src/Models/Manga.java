@@ -1,6 +1,7 @@
 package Models;
 
 public class Manga {
+    private int id;
     private String titulo;
     private String autor;
     private int ano;
@@ -33,5 +34,13 @@ public class Manga {
 
     public void setAno(int ano) {
         this.ano = ano;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
