@@ -12,6 +12,13 @@ public class Manga {
         this.ano = ano;
     }
 
+    public Manga(int id, String titulo, String autor, int ano) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.ano = ano;
+    }
+
     public String getTitulo() {
         return titulo;
     }
@@ -42,5 +49,13 @@ public class Manga {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "[%d] %s (%d) - %s",
+            getId(), getTitulo(), getAno(), getAutor()
+        );
     }
 }

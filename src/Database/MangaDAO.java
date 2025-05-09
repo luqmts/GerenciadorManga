@@ -1,6 +1,7 @@
 package Database;
 
 import Models.Manga;
+import Models.MangaList;
 
 import java.sql.*;
 
@@ -17,7 +18,9 @@ public class MangaDAO {
             stmt.setString(2, manga.getAutor());
             stmt.setInt(3, manga.getAno());
 
-            try (ResultSet rs = stmt.executeQuery()) {
+            stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
                 if (rs.next()) {
                     manga.setId(rs.getInt(1));
                 }
@@ -54,13 +57,26 @@ public class MangaDAO {
         }
     }
 
-    public void obter() {
-        String sql = "select * from mangas order by id";
+    public MangaList obter() {
+        String sql = "SELECT * FROM mangas ORDER BY id";
+        MangaList mangaList = new MangaList();
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.executeQuery();
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next()) {
+                int id = result.getInt("id");
+                String titulo = result.getString("titulo");
+                String autor = result.getString("autor");
+                int ano = result.getInt("ano");
+
+                Manga manga = new Manga(id, titulo, autor, ano);
+                mangaList.addManga(manga);
+            }
         } catch (SQLException e) {
             System.out.println("Erro ao obter mangás: " + e.getMessage());
         }
+
+        return mangaList;
     }
 }
